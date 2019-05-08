@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: hystrix-dashboard
+
+server:
+  port: 8089
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    enabled-by-default: true
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    service-url:
+      defaultZone: http://localhost:8888/eureka
