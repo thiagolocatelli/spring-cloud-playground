@@ -10,6 +10,16 @@ spring:
 server:
   port: 8080
 
+info:
+  version: 1.0
+  app:
+    name: ${spring.application.name}
+    description: Rest Apis for ${spring.application.name}
+    contact:
+      name: Thiago Locatelli
+      url: http://github.com/thiagolocatelli
+      email: thiago.locatelli@gmail.com
+
 management:
   endpoints:
     web:
@@ -28,9 +38,8 @@ eureka:
   instance:
     prefer-ip-address: true
   client:
-    registerWithEureka: true
-    fetchRegistry: true
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8888/eureka
-
-
