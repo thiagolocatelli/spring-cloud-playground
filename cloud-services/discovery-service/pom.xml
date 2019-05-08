@@ -9,9 +9,9 @@
 
     <name>discovery-service</name>
 
-    <parent>
-        <groupId>com.github.thiagolocatelli</groupId>
-        <artifactId>spring-cloud-playground-parent</artifactId>
+   <parent>
+        <groupId>com.github.thiagolocatelli.cloud</groupId>
+        <artifactId>cloud-services-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
@@ -24,6 +24,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
