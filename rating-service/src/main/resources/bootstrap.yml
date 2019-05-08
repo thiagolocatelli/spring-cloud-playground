@@ -9,7 +9,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,beans,env,loggers,metrics,gateway
     enabled-by-default: true
 
 eureka:
