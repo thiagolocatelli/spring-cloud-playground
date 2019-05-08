@@ -2,6 +2,16 @@ spring:
   application:
     name: user-service
 
+info:
+  version: 1.0
+  app:
+    name: ${spring.application.name}
+    description: Rest Apis for ${spring.application.name}
+    contact:
+      name: Thiago Locatelli
+      url: http://github.com/thiagolocatelli
+      email: thiago.locatelli@gmail.com
+
 server:
   port: 8081
 
@@ -11,7 +21,10 @@ management:
       exposure:
         include: health,info,beans,env,loggers,metrics,gateway
     enabled-by-default: true
-
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles}
 eureka:
   client:
     registerWithEureka: true

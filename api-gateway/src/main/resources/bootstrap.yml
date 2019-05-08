@@ -19,10 +19,13 @@ management:
   endpoint:
     gateway:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles}
 
 eureka:
   instance:
-#    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
     prefer-ip-address: true
   client:
     registerWithEureka: true
