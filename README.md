@@ -72,19 +72,22 @@ Transfer-Encoding: chunked
 
 [
     {
-        "firstName": "Thiago",
         "id": 1,
-        "lastName": "Locatelli"
+        "firstName": "Thiago",
+        "lastName": "Locatelli",
+        "userName": "thiagolocatelli"
     },
     {
-        "firstName": "Josh",
         "id": 2,
-        "lastName": "Long"
+        "firstName": "Josh",
+        "lastName": "Long",
+        "userName": "starbuxman"
     },
     {
-        "firstName": "Mark",
         "id": 3,
-        "lastName": "Heckler"
+        "firstName": "Mark",
+        "lastName": "Heckler",
+        "userName": "mkheck"
     }
 ]
 ```
