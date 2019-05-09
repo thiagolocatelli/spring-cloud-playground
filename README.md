@@ -4,7 +4,7 @@
 
 ### Micro Services
 
-##### user-service (port 8081)
+#### user-service (port 8081)
 
 | API                       | HTTP Method   |  Description |
 |---------------------------|---------------|--------------|
@@ -13,7 +13,7 @@
 | /api/v1/uses              | GET           |  Retrieves the list of users |
 
 
-##### movie-service (port 8082)
+#### movie-service (port 8082)
 
 | API                       | HTTP Method   |  Description |
 |---------------------------|---------------|--------------|
@@ -22,7 +22,7 @@
 | /api/v1/movies            | GET           |  Retrieves the list of movies |
 
 
-##### rating-service (port 8083)
+#### rating-service (port 8083)
 
 | API                                   | HTTP Method   |  Description |
 |---------------------------------------|---------------|--------------|
@@ -32,7 +32,7 @@
 | /api/v1/ratings/{userId}/{movieId}    | GET           |  Retrieves a rating for an user and movie |
 
 
-##### cart-service (port 8084)
+#### cart-service (port 8084)
 
 | API                               | HTTP Method   |  Description |
 |-----------------------------------|---------------|--------------|
@@ -43,19 +43,19 @@
 
 ### Cloud Services
 
-#### Portainer (port 9999)
+### Portainer (port 9999)
 
-#### Discovery Server - Eureka (port 8888)
+### Discovery Server - Eureka (port 8888)
 
-#### Api Gateway - Spring Cloud Gateway (port 9000)
+### Api Gateway - Spring Cloud Gateway (port 9000)
 
-#### Proxy Gateway - Zuul Proxy (port 9001)
+### Proxy Gateway - Zuul Proxy (port 9001)
 
 
 ## Working with it
 
-#### Downloading and running localy
+### Downloading and running localy
 
-#### Deploying to Docker
+### Deploying to Docker
 
-#### Deploying to Docker Swarm
+### Deploying to Docker Swarm
