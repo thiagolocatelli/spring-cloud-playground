@@ -1,4 +1,4 @@
-# Spring Cloud Playgroud - Simple Movie Experience
+# Spring Cloud Playground - Simple Movie Experience
 
 
 ## Micro Services
