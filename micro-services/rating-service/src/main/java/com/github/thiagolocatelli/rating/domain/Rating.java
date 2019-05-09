@@ -1,9 +1,9 @@
 package com.github.thiagolocatelli.rating.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.core.style.ToStringCreator;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Rating {
@@ -15,6 +15,9 @@ public class Rating {
     private Long userId;
     private Long movieId;
     private Integer rating;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     public Long getUserId() {
         return userId;
@@ -40,12 +43,28 @@ public class Rating {
         this.rating = rating;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
-        return "Rating{" +
-                "userId=" + userId +
-                ", movieId=" + movieId +
-                ", rating=" + rating +
-                '}';
+        return new ToStringCreator(this)
+                .append("userId", userId)
+                .append("movieId", movieId)
+                .append("rating", rating)
+                .append("createdAt", createdAt).toString();
     }
 }

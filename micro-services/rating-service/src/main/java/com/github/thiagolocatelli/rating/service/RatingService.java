@@ -1,5 +1,7 @@
 package com.github.thiagolocatelli.rating.service;
 
+import com.github.thiagolocatelli.rating.client.MovieServiceClient;
+import com.github.thiagolocatelli.rating.client.UserServiceClient;
 import com.github.thiagolocatelli.rating.domain.Rating;
 import com.github.thiagolocatelli.rating.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,12 @@ public class RatingService {
 
     @Autowired
     private RatingRepository ratingRepository;
+
+    @Autowired
+    private MovieServiceClient movieServiceClient;
+
+    @Autowired
+    private UserServiceClient userServiceClient;
 
     public Rating save(Rating rating) {
         return ratingRepository.save(rating);
