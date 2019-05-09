@@ -37,6 +37,8 @@
 	</dependencies>
 
 	<dependencyManagement>
+
+		<!-- Spring Dependencies -->
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -46,6 +48,9 @@
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
+
+		<!-- Project Dependencies -->
+
 	</dependencyManagement>
 
 	<build>

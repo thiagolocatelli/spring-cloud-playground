@@ -13,7 +13,7 @@ info:
       email: thiago.locatelli@gmail.com
 
 server:
-  port: 8080
+  port: 9001
 
 management:
   endpoints:
