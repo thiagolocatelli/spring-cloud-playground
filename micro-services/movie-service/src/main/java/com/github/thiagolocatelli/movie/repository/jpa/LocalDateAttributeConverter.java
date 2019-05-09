@@ -1,4 +1,4 @@
-package com.github.thiagolocatelli.cart.repository.jpa;
+package com.github.thiagolocatelli.movie.repository.jpa;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

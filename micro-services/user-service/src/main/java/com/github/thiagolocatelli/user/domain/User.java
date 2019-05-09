@@ -1,6 +1,9 @@
 package com.github.thiagolocatelli.user.domain;
 
+import org.springframework.core.style.ToStringCreator;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class User {
@@ -14,6 +17,11 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    public User() {}
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
@@ -46,10 +54,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return new ToStringCreator(this)
+                .append("id", id)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .append("createdAt", createdAt).toString();
     }
 }

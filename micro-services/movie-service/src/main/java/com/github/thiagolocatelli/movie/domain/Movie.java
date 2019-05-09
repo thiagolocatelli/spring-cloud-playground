@@ -1,5 +1,7 @@
 package com.github.thiagolocatelli.movie.domain;
 
+import org.springframework.core.style.ToStringCreator;
+
 import javax.persistence.*;
 
 @Entity
@@ -63,9 +65,9 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return new ToStringCreator(this)
+                .append("id", id)
+                .append("name", name)
+                .append("releaseYear", releaseYear).toString();
     }
 }

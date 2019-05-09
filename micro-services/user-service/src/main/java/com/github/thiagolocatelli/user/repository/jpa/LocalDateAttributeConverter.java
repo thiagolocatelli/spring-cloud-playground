@@ -1,4 +1,4 @@
-package com.github.thiagolocatelli.rating.repository.jpa;
+package com.github.thiagolocatelli.user.repository.jpa;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
