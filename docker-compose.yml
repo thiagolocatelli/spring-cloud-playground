@@ -1,0 +1,178 @@
+version: "3.3"
+
+services:
+
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    ports:
+      - "9999:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --no-auth
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+
+  discovery-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/discovery-service:0.0.1-SNAPSHOT
+    ports:
+      - "8888:8888/tcp"
+    deploy:
+      replicas: 1
+
+  api-gateway:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/api-gateway:0.0.1-SNAPSHOT
+    ports:
+      - "9000:9000/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - discovery-service
+
+  proxy-gateway:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/proxy-gateway:0.0.1-SNAPSHOT
+    ports:
+      - "9001:9001/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - discovery-service
+
+  user-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/user-service:0.0.2-SNAPSHOT
+    ports:
+      - "8081:8081/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: '1000mb'
+          cpus: '0.5'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - user-db
+      - discovery-service
+
+  movie-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/movie-service:0.0.2-SNAPSHOT
+    ports:
+      - "8082:8082/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: '1000mb'
+          cpus: '0.5'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - movie-db
+      - discovery-service
+
+  rating-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/rating-service:0.0.2-SNAPSHOT
+    ports:
+      - "8083:8083/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: '1000mb'
+          cpus: '0.5'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - rating-db
+      - discovery-service
+
+  cart-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    image: thiagolocatelli/cart-service:0.0.2-SNAPSHOT
+    ports:
+      - "8084:8084/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: '1000mb'
+          cpus: '0.5'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+       - cart-db
+       - discovery-service
+
+  user-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
+  movie-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
+  cart-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
+  rating-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
