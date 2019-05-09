@@ -18,14 +18,18 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public User() {}
 
-    public User(String firstName, String lastName) {
+    public User(String firstName, String lastName, String userName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -52,6 +56,22 @@ public class User {
         this.lastName = lastname;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @PrePersist
     public void preInsert() {
         if (this.createdAt == null)
@@ -64,6 +84,7 @@ public class User {
                 .append("id", id)
                 .append("firstName", firstName)
                 .append("lastName", lastName)
+                .append("userName", userName)
                 .append("createdAt", createdAt).toString();
     }
 }
