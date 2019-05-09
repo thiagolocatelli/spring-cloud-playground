@@ -47,9 +47,13 @@
 
 ### Discovery Server - Eureka (port 8888)
 
+![Drag Racing](doc/images/eureka.png)
+
 ### Api Gateway - Spring Cloud Gateway (port 9000)
 
 ### Proxy Gateway - Zuul Proxy (port 9001)
+
+![Drag Racing](doc/images/proxy-gateway.png)
 
 
 ## Working with it
