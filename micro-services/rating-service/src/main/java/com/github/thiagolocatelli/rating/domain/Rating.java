@@ -59,6 +59,12 @@ public class Rating {
         this.createdAt = createdAt;
     }
 
+    @PrePersist
+    public void preInsert() {
+        if (this.createdAt == null)
+            this.createdAt = LocalDateTime.now();
+    }
+
     @Override
     public String toString() {
         return new ToStringCreator(this)

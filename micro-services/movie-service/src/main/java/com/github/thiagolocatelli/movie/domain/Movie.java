@@ -23,6 +23,9 @@ public class Movie {
     @Column(name = "release_year")
     private Integer releaseYear;
 
+    @Column(name = "grace_period")
+    private Integer gracePeriod;
+
     public Long getId() {
         return id;
     }
@@ -68,6 +71,7 @@ public class Movie {
         return new ToStringCreator(this)
                 .append("id", id)
                 .append("name", name)
+                .append("gracePeriod", gracePeriod)
                 .append("releaseYear", releaseYear).toString();
     }
 }
