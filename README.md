@@ -56,8 +56,38 @@
 ### Api Gateway - Spring Cloud Gateway (port 9000)
 
 The api gateway uses spring-cloud-gateway, which behinds the scenes is suing spring webflux. At the moment
-spring webflux does not support the swagger-ui.
+spring webflux does not support the swagger-ui. Below you can see example of requests going through the api
+gateway:
 
+```
+[skydiver@dropzone ~/spring-cloud-playground (master)] curl --header "Content-Type: application/json" --request POST --data '{ "firstName": "Thiago", "lastName": "Locatelli", "username": "thiagolocatelli"}' http://localhost:9000/user-service/api/v1/user
+[skydiver@dropzone ~/spring-cloud-playground (master)] curl --header "Content-Type: application/json" --request POST --data '{ "firstName": "Josh", "lastName": "Long", "username": "starbuxman"}' http://localhost:9000/user-service/api/v1/user
+[skydiver@dropzone ~/spring-cloud-playground (master)] curl --header "Content-Type: application/json" --request POST --data '{ "firstName": "Mark", "lastName": "Heckler", "username": "mkheck"}' http://localhost:9000/user-service/api/v1/user
+
+[skydiver@dropzone ~/spring-cloud-playground (master)] http http://localhost:9000/user-service/api/v1/users
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Thu, 09 May 2019 19:05:59 GMT
+Transfer-Encoding: chunked
+
+[
+    {
+        "firstName": "Thiago",
+        "id": 1,
+        "lastName": "Locatelli"
+    },
+    {
+        "firstName": "Josh",
+        "id": 2,
+        "lastName": "Long"
+    },
+    {
+        "firstName": "Mark",
+        "id": 3,
+        "lastName": "Heckler"
+    }
+]
+```
 
 ## Working with it
 
