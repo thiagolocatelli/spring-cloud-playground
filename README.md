@@ -49,11 +49,14 @@
 
 ![Eureka](doc/images/eureka.png)
 
-### Api Gateway - Spring Cloud Gateway (port 9000)
-
 ### Proxy Gateway - Zuul Proxy (port 9001)
 
 ![Zuul Proxy](doc/images/proxy-gateway.png)
+
+### Api Gateway - Spring Cloud Gateway (port 9000)
+
+The api gateway uses spring-cloud-gateway, which behinds the scenes is suing spring webflux. At the moment
+spring webflux does not support the swagger-ui.
 
 
 ## Working with it
