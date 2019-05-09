@@ -28,6 +28,7 @@
 	<modules>
         <module>cloud-services</module>
         <module>micro-services</module>
+	<module>support-libraries</module>
     </modules>
 
 	<dependencies>
