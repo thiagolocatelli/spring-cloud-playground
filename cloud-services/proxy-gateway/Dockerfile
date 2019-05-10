@@ -1,7 +1,7 @@
-FROM openjdk:11.0.1-jre-slim-sid
+## Dockerfile from /resources/docker
+FROM adoptopenjdk/openjdk11-openj9:alpine-slim
 
-CMD ["/usr/bin/java", "-jar", "/usr/share/myservice/myservice.jar"]
-
-# Add the service itself
 ARG JAR_FILE
-COPY target/${JAR_FILE} /usr/share/myservice/myservice.jar
+COPY target/${JAR_FILE} application.jar
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "application.jar"]
