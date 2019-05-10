@@ -17,7 +17,8 @@
 	</parent>
 
 	<modules>
-
+		<module>swagger-ui</module>
+		<module>swagger-ui-resources</module>
 	</modules>
 
 </project>
