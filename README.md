@@ -47,11 +47,11 @@
 
 ### Discovery Server - Eureka (port 8888)
 
-![Eureka](doc/images/eureka.png)
+![Eureka](resources/images/eureka.png)
 
 ### Proxy Gateway - Zuul Proxy (port 9001)
 
-![Zuul Proxy](doc/images/proxy-gateway.png)
+![Zuul Proxy](resources/images/proxy-gateway.png)
 
 ### Api Gateway - Spring Cloud Gateway (port 9000)
 
