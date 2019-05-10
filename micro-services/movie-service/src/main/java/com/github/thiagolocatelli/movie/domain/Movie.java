@@ -5,6 +5,7 @@ import org.springframework.core.style.ToStringCreator;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "movies")
 public class Movie {
 
     @Id
