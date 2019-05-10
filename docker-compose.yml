@@ -1,13 +1,9 @@
 version: "3.3"
 
-volumes:
-  portainer_data:
-
 services:
 
   portainer:
     image: portainer/portainer
-    container_name: portainer
     ports:
       - "9999:9000"
     volumes:
@@ -161,7 +157,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker
     image: thiagolocatelli/cart-service:0.0.1-SNAPSHOT
     healthcheck:
-      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8084/actuator/health -O /dev/null"]
       interval: 30s
       timeout: 1s
       retries: 4
