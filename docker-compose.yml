@@ -1,5 +1,8 @@
 version: "3.3"
 
+volumes:
+  portainer_data:
+
 services:
 
   portainer:
@@ -9,6 +12,7 @@ services:
       - "9999:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/portainer_data:/data
     command: --no-auth
     deploy:
       replicas: 1
@@ -24,6 +28,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     image: thiagolocatelli/discovery-service:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8888/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "8888:8888/tcp"
     deploy:
@@ -33,6 +42,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     image: thiagolocatelli/api-gateway:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:9000/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "9000:9000/tcp"
     deploy:
@@ -51,6 +65,11 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     image: thiagolocatelli/proxy-gateway:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:9001/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "9001:9001/tcp"
     deploy:
@@ -68,7 +87,12 @@ services:
   user-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/user-service:0.0.2-SNAPSHOT
+    image: thiagolocatelli/user-service:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8081/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "8081:8081/tcp"
     deploy:
@@ -87,7 +111,12 @@ services:
   movie-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/movie-service:0.0.2-SNAPSHOT
+    image: thiagolocatelli/movie-service:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8082/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "8082:8082/tcp"
     deploy:
@@ -106,7 +135,12 @@ services:
   rating-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/rating-service:0.0.2-SNAPSHOT
+    image: thiagolocatelli/rating-service:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "8083:8083/tcp"
     deploy:
@@ -125,7 +159,12 @@ services:
   cart-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/cart-service:0.0.2-SNAPSHOT
+    image: thiagolocatelli/cart-service:0.0.1-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 1s
+      retries: 4
     ports:
       - "8084:8084/tcp"
     deploy:
@@ -145,6 +184,11 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432/tcp"
     deploy:
@@ -154,6 +198,11 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432/tcp"
     deploy:
@@ -163,6 +212,11 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432/tcp"
     deploy:
@@ -172,6 +226,11 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432/tcp"
     deploy:
