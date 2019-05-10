@@ -45,6 +45,8 @@
 
 ### Portainer (port 9999)
 
+![Eureka](resources/images/portainer.png)
+
 ### Discovery Server - Eureka (port 8888)
 
 ![Eureka](resources/images/eureka.png)
