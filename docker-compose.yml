@@ -20,6 +20,45 @@ services:
           cpus: '0.1'
           memory: '250mb'
 
+  influxdb:
+    image: influxdb:1.7.6
+    ports:
+      - 8086:8086
+    volumes:
+      - /var/lib/influxdb
+    environment:
+      INFLUXDB_USER: user
+      INFLUXDB_USER_PASSWORD: pass
+      INFLUXDB_DB: boot
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+  grafana:
+    image: grafana/grafana:6.1.6
+    ports:
+      - 3000:3000
+    volumes:
+      - /var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - influxdb
+
   discovery-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
