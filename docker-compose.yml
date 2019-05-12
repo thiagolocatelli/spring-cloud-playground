@@ -20,33 +20,31 @@ services:
           cpus: '0.1'
           memory: '250mb'
 
-#  influxdb:
-#    image: influxdb:1.7.6
-#    ports:
-#      - 8086:8086
+  influx-db:
+    image: influxdb:1.7.6
+    ports:
+      - 8086:8086
+    volumes:
+      - /var/lib/influxdb
+    environment:
+      INFLUXDB_USER: influxdb
+      INFLUXDB_USER_PASSWORD: influxdb-pass
+      INFLUXDB_DB: springboot
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+
+#  telegraf:
+#    image: telegraf
 #    volumes:
-#      - /var/lib/influxdb
-#    environment:
-#      INFLUXDB_USER: user
-#      INFLUXDB_USER_PASSWORD: pass
-#      INFLUXDB_DB: boot
-#    deploy:
-#      replicas: 1
-#      resources:
-#        limits:
-#          cpus: '0.5'
-#          memory: '1000mb'
-#        reservations:
-#          cpus: '0.1'
-#          memory: '250mb'
-#  grafana:
-#    image: grafana/grafana:6.1.6
-#    ports:
-#      - 3000:3000
-#    volumes:
-#      - /var/lib/grafana
-#    environment:
-#      GF_SECURITY_ADMIN_PASSWORD: admin
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - $PWD/resources/config/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 #    deploy:
 #      replicas: 1
 #      resources:
@@ -57,12 +55,52 @@ services:
 #          cpus: '0.1'
 #          memory: '250mb'
 #    depends_on:
-#      - influxdb
+#      - influx-db
+#
+#  chronograf:
+#    image: chronograf
+#    ports:
+#      - 9002:8888
+#    volumes:
+#      - $PWD/resources/config/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+#    environment:
+#      influxdb-url: http://influx-db:8086
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          cpus: '0.5'
+#          memory: '1000mb'
+#        reservations:
+#          cpus: '0.1'
+#          memory: '250mb'
+#    depends_on:
+#      - influx-db
+
+  grafana:
+    image: grafana/grafana:6.1.6
+    ports:
+      - 3000:3000
+    volumes:
+      - /var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1000mb'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - influx-db
 
   discovery-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/discovery-service:0.0.1-SNAPSHOT
+    image: ${DOCKER_USER}/discovery-service:0.0.1-SNAPSHOT
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8888/actuator/health -O /dev/null"]
       interval: 30s
@@ -76,7 +114,7 @@ services:
   api-gateway:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/api-gateway:0.0.1-SNAPSHOT
+    image: ${DOCKER_USER}/api-gateway:0.0.1-SNAPSHOT
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9000/actuator/health -O /dev/null"]
       interval: 30s
@@ -99,7 +137,7 @@ services:
   proxy-gateway:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/proxy-gateway:0.0.1-SNAPSHOT
+    image: ${DOCKER_USER}/proxy-gateway:0.0.1-SNAPSHOT
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9001/actuator/health -O /dev/null"]
       interval: 30s
@@ -122,7 +160,7 @@ services:
   user-service:
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/user-service:0.0.1-SNAPSHOT
+    image: ${DOCKER_USER}/user-service:0.0.1-SNAPSHOT
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8081/actuator/health -O /dev/null"]
       interval: 30s
