@@ -94,10 +94,32 @@ Transfer-Encoding: chunked
 ]
 ```
 
-## Working with it
+## Trying it out
 
-### Downloading and running localy
+### Downloading and running locally
+
+
+```
+git clone https://github.com/thiagolocatelli/spring-cloud-playground.git
+
+mvn clean package -DskipTests
+
+```
 
 ### Deploying to Docker
+
+To start all the stack in your docker engine, execute the following command:
+
+```
+mvn clean package -DskipTests -P docker
+
+docker-compose -d -p moviex up
+```
+
+to stop all containers
+
+```
+docker-compose -p moviex down
+```
 
 ### Deploying to Docker Swarm
