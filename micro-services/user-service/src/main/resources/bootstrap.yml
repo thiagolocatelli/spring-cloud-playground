@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: user-service
 
@@ -24,7 +26,7 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-      environment: ${spring.profiles}
+      environment: ${spring.profiles.active}
 
 eureka:
   client:
