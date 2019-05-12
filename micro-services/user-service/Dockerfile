@@ -1,4 +1,5 @@
 ## Dockerfile from /resources/docker
+
 FROM adoptopenjdk/openjdk11-openj9:alpine-slim
 
 ARG JAR_FILE
