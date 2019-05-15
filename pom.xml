@@ -145,6 +145,7 @@
 										<directory>${session.executionRootDirectory}/resources/properties</directory>
 										<includes>
 											<include>application-metrics.properties</include>
+											<include>application-dev.properties</include>
 										</includes>
 										<filtering>true</filtering>
 									</resource>

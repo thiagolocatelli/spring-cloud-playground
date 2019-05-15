@@ -30,6 +30,11 @@ services:
       INFLUXDB_USER: influxdb
       INFLUXDB_USER_PASSWORD: influxdb-pass
       INFLUXDB_DB: springboot
+    healthcheck:
+      test: "curl -f http://localhost:8086/ping"
+      interval: 30s
+      timeout: 5s
+      retries: 5
     deploy:
       replicas: 1
       resources:
@@ -76,50 +81,57 @@ services:
 #          memory: '250mb'
 #    depends_on:
 #      - influx-db
-
-  grafana:
-    image: grafana/grafana:6.1.6
-    ports:
-      - 3000:3000
-    volumes:
-      - /var/lib/grafana
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: admin
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: '1000mb'
-        reservations:
-          cpus: '0.1'
-          memory: '250mb'
-    depends_on:
-      - influx-db
+#
+#  grafana:
+#    image: grafana/grafana:6.1.6
+#    ports:
+#      - 3000:3000
+#    volumes:
+#      - /var/lib/grafana
+#    environment:
+#      GF_SECURITY_ADMIN_PASSWORD: admin
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          cpus: '0.5'
+#          memory: '1000mb'
+#        reservations:
+#          cpus: '0.1'
+#          memory: '250mb'
+#    depends_on:
+#      - influx-db
 
   discovery-service:
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
     image: ${DOCKER_USER}/discovery-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8888/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "8888:8888/tcp"
     deploy:
       replicas: 1
+      resources:
+        limits:
+          memory: '1000mb'
+          cpus: '0.5'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
 
   api-gateway:
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
     image: ${DOCKER_USER}/api-gateway:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9000/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "9000:9000/tcp"
     deploy:
@@ -135,14 +147,14 @@ services:
       - discovery-service
 
   proxy-gateway:
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
     image: ${DOCKER_USER}/proxy-gateway:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9001/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "9001:9001/tcp"
     deploy:
@@ -158,14 +170,14 @@ services:
       - discovery-service
 
   user-service:
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
     image: ${DOCKER_USER}/user-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8081/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "8081:8081/tcp"
     deploy:
@@ -182,14 +194,14 @@ services:
       - discovery-service
 
   movie-service:
+    image: ${DOCKER_USER}/movie-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/movie-service:0.0.1-SNAPSHOT
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8082/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "8082:8082/tcp"
     deploy:
@@ -206,14 +218,14 @@ services:
       - discovery-service
 
   rating-service:
+    image: ${DOCKER_USER}/rating-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/rating-service:0.0.1-SNAPSHOT
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "8083:8083/tcp"
     deploy:
@@ -230,14 +242,14 @@ services:
       - discovery-service
 
   cart-service:
+    image: ${DOCKER_USER}/cart-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-    image: thiagolocatelli/cart-service:0.0.1-SNAPSHOT
+      SPRING_PROFILES_ACTIVE: docker,metrics
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8084/actuator/health -O /dev/null"]
       interval: 30s
-      timeout: 1s
-      retries: 4
+      timeout: 5s
+      retries: 5
     ports:
       - "8084:8084/tcp"
     deploy:
@@ -253,13 +265,36 @@ services:
        - cart-db
        - discovery-service
 
+  load-service:
+    image: ${DOCKER_USER}/load-service:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,metrics
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8085/actuator/health -O /dev/null"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "8085:8085/tcp"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: '1000mb'
+          cpus: '0.5'
+        reservations:
+          cpus: '0.1'
+          memory: '250mb'
+    depends_on:
+      - discovery-service
+
   user-db:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: example
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
       retries: 5
     ports:
@@ -273,7 +308,7 @@ services:
       POSTGRES_PASSWORD: example
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
       retries: 5
     ports:
@@ -287,7 +322,7 @@ services:
       POSTGRES_PASSWORD: example
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
       retries: 5
     ports:
@@ -301,7 +336,7 @@ services:
       POSTGRES_PASSWORD: example
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      interval: 30s
       timeout: 5s
       retries: 5
     ports:

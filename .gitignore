@@ -27,3 +27,6 @@ target/
 
 ### VS Code ###
 .vscode/
+
+support-libraries/swagger-ui/Dockerfile
+support-libraries/swagger-ui/src/main/resources/application-metrics.properties
