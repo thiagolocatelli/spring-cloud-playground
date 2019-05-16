@@ -59,7 +59,7 @@ The api gateway uses spring-cloud-gateway, which behinds the scenes is suing spr
 spring webflux does not support the swagger-ui. Below you can see example of requests going through the api
 gateway:
 
-```
+```sh
 [skydiver@dropzone ~/spring-cloud-playground (master)] curl --header "Content-Type: application/json" --request POST --data '{ "firstName": "Thiago", "lastName": "Locatelli", "username": "thiagolocatelli"}' http://localhost:9000/user-service/api/v1/user
 [skydiver@dropzone ~/spring-cloud-playground (master)] curl --header "Content-Type: application/json" --request POST --data '{ "firstName": "Josh", "lastName": "Long", "username": "starbuxman"}' http://localhost:9000/user-service/api/v1/user
 [skydiver@dropzone ~/spring-cloud-playground (master)] curl --header "Content-Type: application/json" --request POST --data '{ "firstName": "Mark", "lastName": "Heckler", "username": "mkheck"}' http://localhost:9000/user-service/api/v1/user
@@ -96,8 +96,7 @@ Transfer-Encoding: chunked
 
 ### Downloading and running locally
 
-
-```
+```bash
 git clone https://github.com/thiagolocatelli/spring-cloud-playground.git
 
 mvn clean package -DskipTests
@@ -108,7 +107,7 @@ mvn clean package -DskipTests
 
 To start all the stack in your docker engine, execute the following command:
 
-```
+```bash
 mvn clean package -DskipTests -P docker
 
 docker-compose -d -p moviex up
@@ -116,7 +115,7 @@ docker-compose -d -p moviex up
 
 to stop all containers
 
-```
+```bash
 docker-compose -p moviex down
 ```
 

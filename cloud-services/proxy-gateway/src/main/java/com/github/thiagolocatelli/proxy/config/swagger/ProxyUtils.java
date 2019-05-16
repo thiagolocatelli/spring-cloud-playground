@@ -11,7 +11,7 @@ public class ProxyUtils {
     public static final String EMPTY_STRING = "";
 
     public static SwaggerResource createSwaggerResource(String name, String location) {
-        springfox.documentation.swagger.web.SwaggerResource swaggerResource = new SwaggerResource();
+        SwaggerResource swaggerResource = new SwaggerResource();
         swaggerResource.setName(name);
         swaggerResource.setLocation(location);
         swaggerResource.setSwaggerVersion(DEFAULT_SWAGGER_VERSION);
