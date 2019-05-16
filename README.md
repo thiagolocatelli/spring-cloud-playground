@@ -96,7 +96,7 @@ Transfer-Encoding: chunked
 
 ### Downloading and running locally
 
-```bash
+```sh
 git clone https://github.com/thiagolocatelli/spring-cloud-playground.git
 
 mvn clean package -DskipTests
@@ -107,7 +107,7 @@ mvn clean package -DskipTests
 
 To start all the stack in your docker engine, execute the following command:
 
-```bash
+```sh
 mvn clean package -DskipTests -P docker
 
 docker-compose -d -p moviex up
@@ -115,7 +115,7 @@ docker-compose -d -p moviex up
 
 to stop all containers
 
-```bash
+```sh
 docker-compose -p moviex down
 ```
 
