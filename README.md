@@ -38,7 +38,6 @@
 | /api/v1/cart/{userId}             | GET           | Retrieves the list of cart items for an user |
 | /api/v1/cart/{userId}/{movieId}   | DELETE        | Deletes a cart item for an user and movie |
 
-
 ## Cloud Services
 
 ### Portainer (port 9999)
