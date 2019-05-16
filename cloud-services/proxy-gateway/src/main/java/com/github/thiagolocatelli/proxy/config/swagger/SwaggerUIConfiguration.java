@@ -22,8 +22,9 @@ public class SwaggerUIConfiguration {
     @Primary
     @Bean
     @Lazy
-    public SwaggerResourcesProvider swaggerResourcesProvider(InMemorySwaggerResourcesProvider defaultResourcesProvider,
-                                                             @Value("${spring.application.name}") String springApplicationName) {
+    public SwaggerResourcesProvider swaggerResourcesProvider(
+            InMemorySwaggerResourcesProvider defaultResourcesProvider,
+            @Value("${spring.application.name}") String springApplicationName) {
 
         return () -> {
             List<SwaggerResource> resources = new ArrayList<>(defaultResourcesProvider.get());

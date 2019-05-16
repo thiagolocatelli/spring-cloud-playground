@@ -61,7 +61,8 @@ public class ServiceDescriptionUpdater {
                 String swaggerURL = getSwaggerURL(serviceInstance, false);
                 Optional<Object> jsonData = getSwaggerDefinitionForAPI(aServiceId, swaggerURL);
                 if (jsonData.isPresent()) {
-                    definitionContext.addServiceDefinition(aServiceId, "/" + aServiceId + getSwaggerPath(serviceInstance));
+                    definitionContext.addServiceDefinition(aServiceId, "/" + aServiceId +
+                            getSwaggerPath(serviceInstance));
                 } else {
                     definitionContext.removeServiceDefinition(aServiceId);
                 }

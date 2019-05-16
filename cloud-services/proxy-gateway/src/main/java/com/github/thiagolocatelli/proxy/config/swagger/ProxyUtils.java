@@ -10,7 +10,6 @@ public class ProxyUtils {
     public static final String KEY_SWAGGER_PATH = "swagger-path";
     public static final String EMPTY_STRING = "";
 
-
     public static SwaggerResource createSwaggerResource(String name, String location) {
         springfox.documentation.swagger.web.SwaggerResource swaggerResource = new SwaggerResource();
         swaggerResource.setName(name);
