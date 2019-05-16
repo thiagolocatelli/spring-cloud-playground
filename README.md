@@ -1,4 +1,4 @@
-# Spring Cloud Playground - Simple Movie Experience
+# Spring Cloud Playground - Simple Movie Experience [![Build Status](https://travis-ci.org/thiagolocatelli/spring-cloud-playground.svg?branch=master)](https://travis-ci.org/thiagolocatelli/spring-cloud-playground)
 
 
 ## Micro Services

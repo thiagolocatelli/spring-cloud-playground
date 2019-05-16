@@ -1,0 +1,13 @@
+dist: trusty
+sudo: required
+language: java
+jdk:
+  - oraclejdk8
+  - openjdk11
+  - openjdk12
+services:
+  - docker
+env:
+  global:
+    - GIT_NAME="Thiago Locatelli"
+    - GIT_EMAIL="thiago.locatelli@gmail.com"
