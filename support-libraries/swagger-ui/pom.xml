@@ -16,8 +16,6 @@
         <relativePath>../</relativePath>
     </parent>
 
-
-
     <dependencies>
         <dependency>
             <groupId>io.springfox</groupId>
