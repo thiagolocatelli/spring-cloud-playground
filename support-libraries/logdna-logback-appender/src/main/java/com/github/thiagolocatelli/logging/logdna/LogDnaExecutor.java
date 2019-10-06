@@ -63,6 +63,8 @@ public class LogDnaExecutor {
                 errorLog.error("Error calling LogDna : {} ({})", httpResponse.body().string(), httpResponse.code());
             }
 
+            httpResponse.body().close();
+
         } catch (JsonProcessingException e) {
             errorLog.error("Error processing JSON data : " + e.getMessage(), e);
         } catch (Exception e) {
