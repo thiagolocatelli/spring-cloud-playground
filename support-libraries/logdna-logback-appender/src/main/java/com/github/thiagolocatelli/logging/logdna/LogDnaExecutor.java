@@ -33,7 +33,7 @@ public class LogDnaExecutor {
     private OkHttpClient httpClient;
     private String hostname;
 
-    public LogDnaExecutor(String hostname, LogDnaConfiguration configuration, PatternLayoutEncoder encoder, Context context) {
+    public LogDnaExecutor(String hostname, LogDnaConfiguration configuration, PatternLayoutEncoder encoder) {
         this.hostname = hostname;
         this.configuration = configuration;
         this.encoder = encoder;

@@ -15,7 +15,7 @@ public class LogDnaAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
     @Override
     public void start() {
-        executor = new LogDnaExecutor(identifyHostname(), config, encoder, getContext());
+        executor = new LogDnaExecutor(identifyHostname(), config, encoder);
         super.start();
     }
 

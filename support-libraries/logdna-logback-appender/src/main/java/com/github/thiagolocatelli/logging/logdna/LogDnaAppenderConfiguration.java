@@ -21,32 +21,31 @@ public class LogDnaAppenderConfiguration  {
     String applicationName;
 
     @Value("${spring.profiles.active}")
-    String springProfilesActive;
+    private String springProfilesActive;
 
     @Value("${LOGDNA_API_KEY:}")
-    String logdnaApiKey;
+    private String logdnaApiKey;
 
     @Value("${LOGDNA_URL:https://logs.logdna.com/logs/ingest}")
-    String logdnaUrl;
+    private String logdnaUrl;
 
     @Value("${LOGDNA_TAGS:}")
-    String tags;
+    private String tags;
 
     @Value("${LOGDNA_MDC_FIELDS:}")
-    String logdnaMdcFields;
+    private String logdnaMdcFields;
 
     @Value("${LOGDNA_MDC_TYPES:}")
-    String logdnaMdcFieldsTypes;
+    private String logdnaMdcFieldsTypes;
 
     @PostConstruct
     public void setupLogDnaAppender() {
 
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 
         if(!StringUtils.isEmpty(logdnaApiKey) && !StringUtils.isEmpty(applicationName)) {
 
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-            String val = lc.getProperty("CONSOLE_LOG_PATTERN");
 
             PatternLayoutEncoder encoder = new PatternLayoutEncoder();
             encoder.setContext(lc);

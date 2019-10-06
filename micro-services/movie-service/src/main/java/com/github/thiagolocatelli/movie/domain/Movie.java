@@ -17,7 +17,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @javax.persistence.Column(name = "name")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "synopsis")
