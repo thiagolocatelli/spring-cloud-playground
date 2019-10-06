@@ -51,7 +51,7 @@ public class ServiceDescriptionUpdater {
 
         for (String aServiceId : discoveryClient.getServices()) {
             // Skip consul entry
-            if (aServiceId.equals("discovery-service") || aServiceId.equals("proxy-gateway")) {
+            if ("discovery-service".equals(aServiceId) || "proxy-gateway".equals(aServiceId)) {
                 continue;
             }
 

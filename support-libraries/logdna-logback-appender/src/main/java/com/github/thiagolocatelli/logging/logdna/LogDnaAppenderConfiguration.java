@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 
+
 @Configuration
 public class LogDnaAppenderConfiguration  {
 

@@ -2,7 +2,10 @@ package com.github.thiagolocatelli.rating.domain;
 
 import org.springframework.core.style.ToStringCreator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,14 +13,14 @@ import java.time.LocalDateTime;
 public class Rating {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
     private Long movieId;
     private Integer rating;
 
-    @Column(name = "created_at")
+    @javax.persistence.Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public Long getUserId() {
@@ -60,7 +63,7 @@ public class Rating {
         this.createdAt = createdAt;
     }
 
-    @PrePersist
+    @javax.persistence.PrePersist
     public void preInsert() {
         if (this.createdAt == null)
             this.createdAt = LocalDateTime.now();

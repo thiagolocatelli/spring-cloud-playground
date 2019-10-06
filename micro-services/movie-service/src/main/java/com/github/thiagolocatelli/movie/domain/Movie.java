@@ -2,7 +2,12 @@ package com.github.thiagolocatelli.movie.domain;
 
 import org.springframework.core.style.ToStringCreator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "movies")
@@ -12,7 +17,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @javax.persistence.Column(name = "name")
     private String name;
 
     @Column(name = "synopsis")
