@@ -1,6 +1,6 @@
 ## Dockerfile from /resources/docker
 
-FROM adoptopenjdk/openjdk11-openj9:alpine-slim
+FROM thiagolocatelli/ubuntu-corretto11:alpine-3.8-glibc2.27
 
 ARG JAR_FILE
 COPY target/${JAR_FILE} application.jar

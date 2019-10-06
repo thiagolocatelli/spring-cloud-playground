@@ -36,7 +36,12 @@ public class Swagger2Config {
         ApiInfo apiInfo = new ApiInfo(
                 this.environment.getProperty("info.app.name"),
                 this.environment.getProperty("info.app.description"),
-                this.environment.getProperty("info.version"), null, contact, null, null, Collections.emptyList());
+                this.environment.getProperty("info.app.version"),
+                null,
+                contact,
+                "MIT",
+                "https://opensource.org/licenses/MIT",
+                Collections.emptyList());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)

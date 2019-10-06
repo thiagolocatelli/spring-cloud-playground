@@ -2,6 +2,15 @@ version: "3.3"
 
 services:
 
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: "always"
+
   portainer:
     image: portainer/portainer
     ports:
@@ -9,6 +18,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/portainer_data:/data
+    environment:
+      VIRTUAL_HOST: portainer.127.0.0.1.xip.io
     command: --no-auth
     deploy:
       replicas: 1
@@ -45,51 +56,18 @@ services:
           cpus: '0.1'
           memory: '250mb'
 
-#  telegraf:
-#    image: telegraf
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - $PWD/resources/config/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-#    deploy:
-#      replicas: 1
-#      resources:
-#        limits:
-#          cpus: '0.5'
-#          memory: '1000mb'
-#        reservations:
-#          cpus: '0.1'
-#          memory: '250mb'
-#    depends_on:
-#      - influx-db
-#
-#  chronograf:
-#    image: chronograf
-#    ports:
-#      - 9002:8888
-#    volumes:
-#      - $PWD/resources/config/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-#    environment:
-#      influxdb-url: http://influx-db:8086
-#    deploy:
-#      replicas: 1
-#      resources:
-#        limits:
-#          cpus: '0.5'
-#          memory: '1000mb'
-#        reservations:
-#          cpus: '0.1'
-#          memory: '250mb'
-#    depends_on:
-#      - influx-db
-#
 #  grafana:
 #    image: grafana/grafana:6.1.6
 #    ports:
 #      - 3000:3000
 #    volumes:
-#      - /var/lib/grafana
+#      - ./_data/grafana:/var/lib/grafana
 #    environment:
+#      GF_INSTALL_PLUGINS:
 #      GF_SECURITY_ADMIN_PASSWORD: admin
+#      GF_SECURITY_ADMIN_USER: admin
+#      GF_USERS_ALLOW_SIGN_UP: false
+#      VIRTUAL_HOST: discovery-service.127.0.0.1.xip.io
 #    deploy:
 #      replicas: 1
 #      resources:
@@ -105,7 +83,8 @@ services:
   discovery-service:
     image: ${DOCKER_USER}/discovery-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: discovery-service.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8888/actuator/health -O /dev/null"]
       interval: 30s
@@ -126,7 +105,8 @@ services:
   api-gateway:
     image: ${DOCKER_USER}/api-gateway:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: api-gateway.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9000/actuator/health -O /dev/null"]
       interval: 30s
@@ -149,7 +129,8 @@ services:
   proxy-gateway:
     image: ${DOCKER_USER}/proxy-gateway:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: proxy-gateway.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9001/actuator/health -O /dev/null"]
       interval: 30s
@@ -172,7 +153,8 @@ services:
   user-service:
     image: ${DOCKER_USER}/user-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: user-service.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8081/actuator/health -O /dev/null"]
       interval: 30s
@@ -193,10 +175,25 @@ services:
       - user-db
       - discovery-service
 
+  user-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
   movie-service:
     image: ${DOCKER_USER}/movie-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: movie-service.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8082/actuator/health -O /dev/null"]
       interval: 30s
@@ -217,10 +214,25 @@ services:
       - movie-db
       - discovery-service
 
+  movie-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
   rating-service:
     image: ${DOCKER_USER}/rating-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: rating-service.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
       interval: 30s
@@ -241,10 +253,25 @@ services:
       - rating-db
       - discovery-service
 
+  rating-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
   cart-service:
     image: ${DOCKER_USER}/cart-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: cart-service.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8084/actuator/health -O /dev/null"]
       interval: 30s
@@ -265,10 +292,25 @@ services:
        - cart-db
        - discovery-service
 
+  cart-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432/tcp"
+    deploy:
+      replicas: 1
+
   load-service:
     image: ${DOCKER_USER}/load-service:0.0.1-SNAPSHOT
     environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics
+      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+      VIRTUAL_HOST: load-service.127.0.0.1.xip.io
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8085/actuator/health -O /dev/null"]
       interval: 30s
@@ -288,58 +330,8 @@ services:
     depends_on:
       - discovery-service
 
-  user-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
 
-  movie-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
 
-  cart-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
 
-  rating-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
+
+
