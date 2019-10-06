@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -21,23 +22,21 @@ public class DataLoaderUtility {
         return StringUtils.capitalize(literals.get(rnd.nextInt(literals.size())));
     }
 
-    public static List<String> firstNames() {
-        return loadObjects("/data/first-names.json", new TypeReference<List<String>>(){});
+    public static List<String> firstNames(ResourceLoader resourceLoader) {
+        return loadObjects(resourceLoader, "classpath:/data/first-names.json", new TypeReference<List<String>>(){});
     }
 
-    public static List<String> lastNames() {
-        return loadObjects("/data/last-names.json", new TypeReference<List<String>>(){});
+    public static List<String> lastNames(ResourceLoader resourceLoader) {
+        return loadObjects(resourceLoader, "classpath:/data/last-names.json", new TypeReference<List<String>>(){});
     }
 
-    public static List<DemoMovie> movies() {
-        return loadObjects("/data/movies.json", new TypeReference<List<DemoMovie>>(){});
+    public static List<DemoMovie> movies(ResourceLoader resourceLoader) {
+        return loadObjects(resourceLoader, "classpath:/data/movies.json", new TypeReference<List<DemoMovie>>(){});
     }
 
-    private static <T> List<T> loadObjects(String resourceName, TypeReference<List<T>> valueTypeRef) {
+    private static <T> List<T> loadObjects(ResourceLoader resourceLoader, String resourceName, TypeReference<List<T>> valueTypeRef) {
         try {
-            Resource resource = new ClassPathResource(resourceName);
-            InputStream resourceInputStream = resource.getInputStream();
-            return new ObjectMapper().readValue(resourceInputStream, valueTypeRef);
+            return new ObjectMapper().readValue(resourceLoader.getResource(resourceName).getInputStream(), valueTypeRef);
         } catch (Exception e) {
             e.printStackTrace();
         }

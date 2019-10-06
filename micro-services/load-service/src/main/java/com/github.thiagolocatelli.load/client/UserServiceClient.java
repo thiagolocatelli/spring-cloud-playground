@@ -7,10 +7,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @FeignClient("user-service")
 public interface UserServiceClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/api/v1/user/{userId}", consumes = "application/json")
-    ResponseEntity<User> fetchUser(@PathVariable("userId") Long userId);
+    User fetchUser(@PathVariable("userId") Long userId);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/api/v1/user", consumes = "application/json")
+    User saveUser(User user);
 
 }
