@@ -31,6 +31,8 @@ management:
       environment: ${spring.profiles.active}
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
     enabled: true
     register-with-eureka: true

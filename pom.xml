@@ -47,6 +47,11 @@
 			<!-- Project Dependencies -->
 			<dependency>
 				<groupId>com.github.thiagolocatelli.support</groupId>
+				<artifactId>logdna-logback-appender</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.thiagolocatelli.support</groupId>
 				<artifactId>swagger-ui</artifactId>
 				<version>${project.version}</version>
 			</dependency>

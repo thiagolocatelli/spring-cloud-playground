@@ -18,6 +18,7 @@
 
 	<modules>
 		<module>swagger-ui</module>
-	</modules>
+        <module>logdna-logback-appender</module>
+    </modules>
 
 </project>

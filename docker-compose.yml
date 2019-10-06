@@ -85,6 +85,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker,metrics,logdna
       VIRTUAL_HOST: discovery-service.127.0.0.1.xip.io
+      LOGDNA_API_KEY: 69ae59287a1baf910d4feb4678a332d0
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8888/actuator/health -O /dev/null"]
       interval: 30s
@@ -107,6 +108,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker,metrics,logdna
       VIRTUAL_HOST: api-gateway.127.0.0.1.xip.io
+      LOGDNA_API_KEY: 69ae59287a1baf910d4feb4678a332d0
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9000/actuator/health -O /dev/null"]
       interval: 30s
@@ -131,6 +133,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker,metrics,logdna
       VIRTUAL_HOST: proxy-gateway.127.0.0.1.xip.io
+      LOGDNA_API_KEY: 69ae59287a1baf910d4feb4678a332d0
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:9001/actuator/health -O /dev/null"]
       interval: 30s
@@ -155,6 +158,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker,metrics,logdna
       VIRTUAL_HOST: user-service.127.0.0.1.xip.io
+      LOGDNA_API_KEY: 69ae59287a1baf910d4feb4678a332d0
     healthcheck:
       test: ["CMD-SHELL", "wget -q http://127.0.0.1:8081/actuator/health -O /dev/null"]
       interval: 30s
@@ -189,147 +193,147 @@ services:
     deploy:
       replicas: 1
 
-  movie-service:
-    image: ${DOCKER_USER}/movie-service:0.0.1-SNAPSHOT
-    environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
-      VIRTUAL_HOST: movie-service.127.0.0.1.xip.io
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8082/actuator/health -O /dev/null"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "8082:8082/tcp"
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          memory: '1000mb'
-          cpus: '0.5'
-        reservations:
-          cpus: '0.1'
-          memory: '250mb'
-    depends_on:
-      - movie-db
-      - discovery-service
-
-  movie-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
-
-  rating-service:
-    image: ${DOCKER_USER}/rating-service:0.0.1-SNAPSHOT
-    environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
-      VIRTUAL_HOST: rating-service.127.0.0.1.xip.io
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "8083:8083/tcp"
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          memory: '1000mb'
-          cpus: '0.5'
-        reservations:
-          cpus: '0.1'
-          memory: '250mb'
-    depends_on:
-      - rating-db
-      - discovery-service
-
-  rating-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
-
-  cart-service:
-    image: ${DOCKER_USER}/cart-service:0.0.1-SNAPSHOT
-    environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
-      VIRTUAL_HOST: cart-service.127.0.0.1.xip.io
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8084/actuator/health -O /dev/null"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "8084:8084/tcp"
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          memory: '1000mb'
-          cpus: '0.5'
-        reservations:
-          cpus: '0.1'
-          memory: '250mb'
-    depends_on:
-       - cart-db
-       - discovery-service
-
-  cart-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: example
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5432/tcp"
-    deploy:
-      replicas: 1
-
-  load-service:
-    image: ${DOCKER_USER}/load-service:0.0.1-SNAPSHOT
-    environment:
-      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
-      VIRTUAL_HOST: load-service.127.0.0.1.xip.io
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8085/actuator/health -O /dev/null"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "8085:8085/tcp"
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          memory: '1000mb'
-          cpus: '0.5'
-        reservations:
-          cpus: '0.1'
-          memory: '250mb'
-    depends_on:
-      - discovery-service
-
+#  movie-service:
+#    image: ${DOCKER_USER}/movie-service:0.0.1-SNAPSHOT
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+#      VIRTUAL_HOST: movie-service.127.0.0.1.xip.io
+#    healthcheck:
+#      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8082/actuator/health -O /dev/null"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "8082:8082/tcp"
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          memory: '1000mb'
+#          cpus: '0.5'
+#        reservations:
+#          cpus: '0.1'
+#          memory: '250mb'
+#    depends_on:
+#      - movie-db
+#      - discovery-service
+#
+#  movie-db:
+#    image: postgres:latest
+#    environment:
+#      POSTGRES_PASSWORD: example
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "5432/tcp"
+#    deploy:
+#      replicas: 1
+#
+#  rating-service:
+#    image: ${DOCKER_USER}/rating-service:0.0.1-SNAPSHOT
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+#      VIRTUAL_HOST: rating-service.127.0.0.1.xip.io
+#    healthcheck:
+#      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8083/actuator/health -O /dev/null"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "8083:8083/tcp"
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          memory: '1000mb'
+#          cpus: '0.5'
+#        reservations:
+#          cpus: '0.1'
+#          memory: '250mb'
+#    depends_on:
+#      - rating-db
+#      - discovery-service
+#
+#  rating-db:
+#    image: postgres:latest
+#    environment:
+#      POSTGRES_PASSWORD: example
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "5432/tcp"
+#    deploy:
+#      replicas: 1
+#
+#  cart-service:
+#    image: ${DOCKER_USER}/cart-service:0.0.1-SNAPSHOT
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+#      VIRTUAL_HOST: cart-service.127.0.0.1.xip.io
+#    healthcheck:
+#      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8084/actuator/health -O /dev/null"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "8084:8084/tcp"
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          memory: '1000mb'
+#          cpus: '0.5'
+#        reservations:
+#          cpus: '0.1'
+#          memory: '250mb'
+#    depends_on:
+#       - cart-db
+#       - discovery-service
+#
+#  cart-db:
+#    image: postgres:latest
+#    environment:
+#      POSTGRES_PASSWORD: example
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "5432/tcp"
+#    deploy:
+#      replicas: 1
+#
+#  load-service:
+#    image: ${DOCKER_USER}/load-service:0.0.1-SNAPSHOT
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker,metrics,logdna
+#      VIRTUAL_HOST: load-service.127.0.0.1.xip.io
+#    healthcheck:
+#      test: ["CMD-SHELL", "wget -q http://127.0.0.1:8085/actuator/health -O /dev/null"]
+#      interval: 30s
+#      timeout: 5s
+#      retries: 5
+#    ports:
+#      - "8085:8085/tcp"
+#    deploy:
+#      replicas: 1
+#      resources:
+#        limits:
+#          memory: '1000mb'
+#          cpus: '0.5'
+#        reservations:
+#          cpus: '0.1'
+#          memory: '250mb'
+#    depends_on:
+#      - discovery-service
+#
 
 
 
