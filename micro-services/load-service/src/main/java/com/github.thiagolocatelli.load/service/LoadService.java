@@ -42,29 +42,35 @@ public class LoadService {
     private List<Movie> localMovies = new ArrayList<>();
     private List<User> localUsers = new ArrayList<>();
 
-    boolean hasBeenPrimed = false;
+    private boolean hasBeenPrimed = false;
+    private boolean isPriming = false;
 
     @Async
     public void start() {
         logger.info("Load Test started");
 
         if(!hasBeenPrimed) {
-            CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> createMovies());
-            CompletableFuture<Void> future2 = CompletableFuture.runAsync(() -> createUsers());
+            if(!isPriming) {
+                isPriming = true;
+                CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> createMovies());
+                CompletableFuture<Void> future2 = CompletableFuture.runAsync(() -> createUsers());
 
-            while(!future1.isDone() && !future2.isDone()) {
-                try {
-                    Thread.sleep(1000);
+                while(!future1.isDone() && !future2.isDone()) {
+                    try {
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                catch(InterruptedException e) {
-                    e.printStackTrace();
-                }
+                isPriming = false;
             }
+
             logger.info("Micro services priming complete");
             hasBeenPrimed = true;
         }
         else {
-            logger.info("Micro services have already been primed");
+            logger.info("Micro services have already been primed, starting load testing");
         }
 
     }

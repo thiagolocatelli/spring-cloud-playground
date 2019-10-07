@@ -18,7 +18,7 @@ public class LogDnaAppenderConfiguration  {
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(LogDnaAppenderConfiguration.class);
 
     @Value("${spring.application.name}")
-    String applicationName;
+    private String applicationName;
 
     @Value("${spring.profiles.active}")
     private String springProfilesActive;
