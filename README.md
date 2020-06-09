@@ -1,5 +1,7 @@
 # Spring Cloud Playground - Simple Movie Experience
 
+
+
 [![Build Status](https://travis-ci.org/thiagolocatelli/spring-cloud-playground.svg?branch=master)](https://travis-ci.org/thiagolocatelli/spring-cloud-playground) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b8bf5d5235f2468b9ab91887fe3dc29f)](https://www.codacy.com/app/thiagolocatelli/spring-cloud-playground?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=thiagolocatelli/spring-cloud-playground&amp;utm_campaign=Badge_Grade)
 
 ## Micro Services
